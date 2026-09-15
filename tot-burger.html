@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ТОТ Бургер — ТОТ Самый бургер в Якутске</title>
+<meta name="description" content="ТОТ Бургер Якутск: сочные бургеры из свежих ингредиентов. Доставка и самовывоз. Дежнева 13 и 202 микрорайон.">
+<style>
+  :root{
+    --bg:#0d0d0d; --card:#1a1a1a; --orange:#f58220; --orange-dark:#d96d0e;
+    --text:#f5f0e8; --muted:#9b948a; --border:#2a2a2a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.5}
+  img{max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1100px;margin:0 auto;padding:0 16px}
+  .hidden-el{display:none!important}
+  body.locked{overflow:hidden}
+
+  /* Шапка */
+  header{position:sticky;top:0;background:rgba(13,13,13,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);z-index:100}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px;letter-spacing:.5px}
+  .logo-mark{background:var(--orange);color:#0d0d0d;padding:2px 8px;border-radius:6px;font-weight:900}
+  .nav-right{display:flex;align-items:center;gap:14px}
+  .nav-phone{font-weight:700;color:var(--orange);white-space:nowrap}
+  .nav-links{display:none;gap:24px;font-weight:500}
+  .nav-links a:hover{color:var(--orange)}
+  @media(min-width:760px){.nav-links{display:flex}}
+  @media(max-width:620px){.nav-phone{display:none}}
+  .cart-btn{position:relative;background:var(--card);border:1px solid var(--border);color:var(--text);width:44px;height:44px;border-radius:12px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .cart-btn:hover{border-color:var(--orange)}
+  .badge{position:absolute;top:-7px;right:-7px;background:var(--orange);color:#0d0d0d;font-size:12px;font-weight:900;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 5px}
+  .badge.pulse{animation:pulse .3s}
+  @keyframes pulse{50%{transform:scale(1.35)}}
+
+  /* Герой */
+  .hero{padding:64px 0 56px;text-align:center;background:radial-gradient(ellipse at top,#26160a 0%,var(--bg) 60%)}
+  .hero h1{font-size:clamp(38px,8vw,64px);font-weight:900;text-transform:uppercase;line-height:1.05}
+  .hero h1 span{color:var(--orange)}
+  .hero p{color:var(--muted);font-size:18px;margin:16px auto 28px;max-width:520px}
+  .hero-badges{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:36px;color:var(--muted);font-size:14px}
+  .hero-badges div{display:flex;align-items:center;gap:8px}
+  .btn{display:inline-block;background:var(--orange);color:#0d0d0d;font-weight:800;padding:14px 32px;border-radius:12px;font-size:17px;transition:.2s;border:none;cursor:pointer;text-align:center}
+  .btn:hover{background:var(--orange-dark);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--text);border:2px solid var(--orange)}
+  .btn-outline:hover{background:var(--orange);color:#0d0d0d}
+  .btn-block{display:block;width:100%}
+  .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  section{padding:56px 0}
+  .section-title{text-align:center;font-size:clamp(28px,5vw,40px);font-weight:900;text-transform:uppercase;margin-bottom:8px}
+  .section-sub{text-align:center;color:var(--muted);margin-bottom:36px}
+  .orange-line{width:60px;height:4px;background:var(--orange);margin:12px auto 0;border-radius:2px}
+
+  /* Доставка */
+  .delivery{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 24px;text-align:center;max-width:720px;margin:0 auto}
+  .delivery h3{font-size:24px;font-weight:900;text-transform:uppercase}
+  .delivery p{color:var(--muted);margin:12px 0 24px}
+  .delivery-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  /* Меню */
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.2s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-4px);border-color:var(--orange)}
+  .card-img{height:150px;background:#241a10;display:flex;align-items:center;justify-content:center;font-size:64px}
+  .card-body{padding:18px;flex:1;display:flex;flex-direction:column}
+  .card h3{font-size:17px;font-weight:800;text-transform:uppercase;color:var(--orange)}
+  .card .comp{color:var(--muted);font-size:13px;margin:8px 0 14px;flex:1}
+  .card-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .price{background:var(--orange);color:#0d0d0d;font-weight:900;padding:4px 12px;border-radius:8px;font-size:16px;white-space:nowrap}
+  .menu-cat{margin-bottom:40px}
+  .menu-cat-title{font-size:22px;font-weight:900;text-transform:uppercase;color:var(--orange);margin-bottom:18px}
+  .simple-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+  .simple-item{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;gap:10px}
+  .row-right{display:flex;gap:10px;align-items:center}
+  .btn-add{background:var(--orange);color:#0d0d0d;border:none;font-weight:800;padding:9px 16px;border-radius:10px;cursor:pointer;font-size:14px;transition:.15s;font-family:inherit}
+  .btn-add:hover{background:var(--orange-dark)}
+  .btn-add:active{transform:scale(.94)}
+  .btn-add-sm{width:34px;height:34px;border-radius:9px;background:var(--orange);color:#0d0d0d;border:none;font-weight:900;font-size:18px;cursor:pointer;line-height:1;flex-shrink:0}
+  .btn-add-sm:hover{background:var(--orange-dark)}
+  .btn-add-sm:active{transform:scale(.9)}
+
+  /* Преимущества */
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;text-align:center}
+  .feature .ico{font-size:40px}
+  .feature h4{margin:10px 0 6px;text-transform:uppercase;font-size:16px}
+  .feature p{color:var(--muted);font-size:14px}
+
+  /* Адреса */
+  .locations{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+  .loc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px}
+  .loc h3{color:var(--orange);text-transform:uppercase;font-size:18px;margin-bottom:10px}
+  .loc p{color:var(--muted);font-size:15px;margin-bottom:6px}
+  .loc a{color:var(--orange);font-size:14px}
+
+  footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color:var(--muted);font-size:14px}
+  footer .logo{justify-content:center;margin-bottom:12px}
+  footer a{color:var(--orange)}
+
+  /* Корзина */
+  .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);opacity:0;pointer-events:none;transition:.25s;z-index:200}
+  .cart-overlay.show{opacity:1;pointer-events:auto}
+  .cart-drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);background:var(--bg);border-left:1px solid var(--border);z-index:201;transform:translateX(100%);transition:.25s;display:flex;flex-direction:column}
+  .cart-drawer.open{transform:none}
+  .cart-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border);font-weight:900;font-size:20px;flex-shrink:0}
+  .icon-btn{background:none;border:none;color:var(--muted);font-size:26px;cursor:pointer;line-height:1}
+  .icon-btn:hover{color:var(--text)}
+  .cart-scroll{flex:1;overflow-y:auto;padding:16px 20px}
+  .cart-empty{text-align:center;color:var(--muted);padding:50px 0}
+  .cart-empty .big{font-size:52px;margin-bottom:10px}
+  .cart-items{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+  .ci{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px}
+  .ci-emoji{font-size:24px}
+  .ci-info{flex:1;min-width:0}
+  .ci-name{font-weight:700;font-size:14px}
+  .ci-price{color:var(--muted);font-size:12px}
+  .qty{display:flex;align-items:center;gap:8px}
+  .qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:16px;cursor:pointer;font-weight:700;line-height:1}
+  .qty button:hover{border-color:var(--orange);color:var(--orange)}
+  .qty span{min-width:18px;text-align:center;font-weight:700;font-size:15px}
+  .ci-sum{font-weight:800;font-size:14px;min-width:70px;text-align:right;white-space:nowrap}
+  .ci-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:4px}
+  .ci-del:hover{color:#e05555}
+  .cart-foot{border-top:1px solid var(--border);padding-top:16px}
+  .total-row{display:flex;justify-content:space-between;font-size:19px;font-weight:900;margin-bottom:4px}
+  .deliv-note{color:var(--muted);font-size:12px;margin-bottom:16px}
+  .form-title{font-size:16px;font-weight:800;text-transform:uppercase;margin-bottom:14px;color:var(--orange)}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:5px}
+  .field input,.field textarea,.field select{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:11px 12px;font-size:15px;font-family:inherit}
+  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--orange)}
+  .radio-row{display:flex;gap:10px;margin-bottom:12px}
+  .radio-row label{flex:1;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:14px}
+  .radio-row input{accent-color:var(--orange)}
+  .test-note{background:#2a1f10;border:1px solid var(--orange);border-radius:10px;color:var(--orange);font-size:12px;padding:10px 12px;margin-bottom:14px}
+
+  /* Модалка тестового заказа */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:300;padding:16px}
+  .modal.show{display:flex}
+  .modal-box{background:var(--card);border:1px solid var(--border);border-radius:16px;max-width:500px;width:100%;padding:22px;max-height:88vh;overflow-y:auto}
+  .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .modal-head h3{font-size:20px}
+  .modal-note{color:var(--muted);font-size:13px;margin-bottom:14px}
+  .modal-box pre{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:13px;white-space:pre-wrap;font-family:inherit;margin-bottom:16px;max-height:320px;overflow:auto}
+  .modal-btns{display:flex;gap:10px;flex-wrap:wrap}
+
+  /* Тост */
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(16px);background:var(--orange);color:#0d0d0d;font-weight:800;padding:11px 22px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:400;font-size:14px;white-space:nowrap;max-width:92vw}
+  .toast.show{opacity:1;transform:translateX(-50%)}
+  @media(min-width:760px){.toast{bottom:30px}}
+
+  /* Нижняя панель на телефоне */
+  .mobile-bar{position:fixed;bottom:0;left:0;right:0;display:flex;gap:8px;padding:12px 16px;background:rgba(13,13,13,.97);border-top:1px solid var(--border);z-index:100}
+  .mobile-bar .btn{flex:1;padding:13px 8px;font-size:15px}
+  @media(min-width:760px){.mobile-bar{display:none}}
+  body{padding-bottom:76px}
+  @media(min-width:760px){body{padding-bottom:0}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="#"><span class="logo-mark">ТОТ</span> Бургер</a>
+    <nav class="nav-links">
+      <a href="#menu">Меню</a>
+      <a href="#delivery">Доставка</a>
+      <a href="#locations">Адреса</a>
+    </nav>
+    <div class="nav-right">
+      <a class="nav-phone" href="tel:+79679122416">+7 967 912-24-16</a>
+      <button class="cart-btn" data-cart aria-label="Корзина">🛒<span class="badge hidden-el" id="cartBadge">0</span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>ТОТ Бургер.<br><span>ТОТ Самый.</span></h1>
+    <p>Сочные котлеты, свежие ингредиенты и фирменные соусы. Готовим с огнём — едим с удовольствием.</p>
+    <div class="hero-btns">
+      <a class="btn" href="#menu">Смотреть меню</a>
+      <a class="btn btn-outline" href="tel:+79679122416">📞 +7 967 912-24-16</a>
+    </div>
+    <div class="hero-badges">
+      <div>🔥 Сочные котлеты</div>
+      <div>🍃 Свежие ингредиенты</div>
+      <div>⭐ Фирменные соусы</div>
+    </div>
+  </div>
+</section>
+
+<section id="delivery">
+  <div class="container">
+    <div class="delivery">
+      <h3>🛵 Доставка и самовывоз</h3>
+      <p>Соберите заказ в корзине — он придёт нам в WhatsApp, и мы перезвоним для подтверждения. Можно просто позвонить. Стоимость и время доставки уточнит оператор.</p>
+      <div class="delivery-btns">
+        <a class="btn" href="#menu">🛒 Собрать заказ</a>
+        <a class="btn btn-outline" href="tel:+79679122416">📞 Позвонить</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="container">
+    <h2 class="section-title">Меню</h2>
+    <div class="orange-line"></div>
+    <p class="section-sub">Всё готовим после заказа</p>
+    <div id="menuRoot"></div>
+  </div>
+</section>
+
+<section id="locations">
+  <div class="container">
+    <h2 class="section-title">Наши точки</h2>
+    <div class="orange-line"></div>
+    <p class="section-sub">Ждём вас каждый день</p>
+    <div class="locations">
+      <!-- TODO: сверьте часы работы с вывеской -->
+      <div class="loc">
+        <h3>📍 Дежнева, 13 — Залог</h3>
+        <p>г. Якутск, ул. Дежнева, 13</p>
+        <p>Пн–Чт: 11:00–22:00</p>
+        <p>Пт–Вс: 10:00–23:00</p>
+        <a href="https://2gis.ru/yakutsk/firm/70000001112776381" target="_blank" rel="noopener">Открыть в 2ГИС →</a>
+      </div>
+      <div class="loc">
+        <h3>📍 202 микрорайон — Дамба</h3>
+        <p>г. Якутск, 202 микрорайон (дамба)</p>
+        <p>Пн–Чт: 11:00–22:00</p>
+        <p>Пт–Вс: 10:00–23:00</p>
+        <a href="https://2gis.ru/yakutsk/firm/70000001115644501" target="_blank" rel="noopener">Открыть в 2ГИС →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="logo"><span class="logo-mark">ТОТ</span> Бургер</div>
+    <p>ТОТ Бургер. ТОТ Самый. © 2025</p>
+    <p><a href="tel:+79679122416">+7 967 912-24-16</a></p>
+  </div>
+</footer>
+
+<div class="mobile-bar">
+  <a class="btn btn-outline" href="tel:+79679122416">📞 Позвонить</a>
+  <button class="btn" data-cart>🛒 Корзина</button>
+  <a class="btn btn-outline" href="https://wa.me/79679122416" target="_blank" rel="noopener">WhatsApp</a>
+</div>
+
+<!-- Корзина -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Корзина">
+  <div class="cart-head"><span>🛒 Корзина</span><button class="icon-btn" data-close-cart aria-label="Закрыть">×</button></div>
+  <div class="cart-scroll">
+    <div id="cartEmpty" class="cart-empty hidden-el">
+      <div class="big">🛒</div>
+      <p>Корзина пуста</p>
+      <button class="btn" data-close-cart style="margin-top:16px">Перейти в меню</button>
+    </div>
+    <div id="cartContent">
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-foot">
+        <div class="total-row"><span>Итого:</span><span id="cartTotal">0 ₽</span></div>
+        <p class="deliv-note">Стоимость доставки согласуется с оператором при подтверждении заказа</p>
+        <form id="orderForm">
+          <h4 class="form-title">Данные для заказа</h4>
+          <div class="field">
+            <label for="cname">Ваше имя *</label>
+            <input id="cname" required placeholder="Иван">
+          </div>
+          <div class="field">
+            <label for="cphone">Телефон *</label>
+            <input id="cphone" type="tel" required placeholder="+7 9xx xxx-xx-xx">
+          </div>
+          <div class="radio-row">
+            <label><input type="radio" name="method" value="delivery" checked> 🛵 Доставка</label>
+            <label><input type="radio" name="method" value="pickup"> 🏠 Самовывоз</label>
+          </div>
+          <div class="field" id="addrField">
+            <label for="caddr">Адрес доставки *</label>
+            <input id="caddr" required placeholder="Улица, дом, квартира, подъезд">
+          </div>
+          <div class="field hidden-el" id="pickField">
+            <label for="cpick">Точка самовывоза</label>
+            <select id="cpick">
+              <option>Дежнева, 13 (Залог)</option>
+              <option>202 микрорайон (Дамба)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ccom">Комментарий</label>
+            <textarea id="ccom" rows="2" placeholder="Например: без лука, позвонить заранее"></textarea>
+          </div>
+          <p id="testNote" class="test-note hidden-el">🧪 Тестовый режим: заказ никуда не отправляется, покажем текст, который ушёл бы в WhatsApp. Отключается в конце кода: <b>TEST_MODE = false</b></p>
+          <button class="btn btn-block" type="submit">Отправить заказ</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Модалка тестового заказа -->
+<div class="modal" id="testModal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>🧪 Тестовый заказ</h3><button class="icon-btn" data-close-modal aria-label="Закрыть">×</button></div>
+    <p class="modal-note">Демо-режим: заказ не отправляется. Ниже — текст, который ушёл бы в WhatsApp на номер <b>+7 967 912-24-16</b>.</p>
+    <pre id="orderPreview"></pre>
+    <div class="modal-btns">
+      <button class="btn" id="copyOrder">Скопировать текст</button>
+      <button class="btn btn-outline" data-close-modal>Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================== НАСТРОЙКИ ================== */
+const CONFIG = {
+  whatsapp: '79679122416',   // номер для приёма заказов (без + и пробелов)
+  TEST_MODE: true            // true = тест (заказ не отправляется), false = реальные заказы в WhatsApp
+};
+
+/* ================== МЕНЮ ================== */
+const MENU = [
+  {id:'b1', cat:'burgers', emoji:'🍔', name:'ТОТ Самый', price:590, desc:'Булочка, говяжья котлета, салат, помидор, солёные огурцы, красный лук, соус кисло-сладкий'},
+  {id:'b2', cat:'burgers', emoji:'🧀', name:'ТОТ Самый сырный', price:640, desc:'Булочка, говяжья котлета, сыр чеддер, салат, помидор, солёные огурцы, соус кисло-сладкий'},
+  {id:'b3', cat:'burgers', emoji:'🍯', name:'ТОТ Самый медовый', price:640, desc:'Булочка, говяжья котлета, мёд, сыр чеддер, салат, помидор, солёные огурцы, бекон, соус сырный, барбекю'},
+  {id:'b4', cat:'burgers', emoji:'🥓', name:'ТОТ Самый фирменный', price:690, desc:'Булочка, говяжья котлета, сыр чеддер, салат, помидор, солёные огурцы, красный лук, бекон, соус фирменный, кисло-сладкий'},
+  {id:'b5', cat:'burgers', emoji:'🔥', name:'ТОТ Бургер', price:790, desc:'Булочка, двойная говяжья котлета, двойной чеддер, салат, помидор, солёные огурцы, бекон, соус сырный, барбекю'},
+  {id:'f1', cat:'extra',  emoji:'🍟', name:'Фри', price:200},
+  {id:'f2', cat:'extra',  emoji:'🥓', name:'Фрайс с беконом', price:350},
+  {id:'f3', cat:'extra',  emoji:'🥣', name:'Соус', price:30},
+  {id:'d1', cat:'drinks', emoji:'🥤', name:'Кола 0,3', price:130},
+  {id:'d2', cat:'drinks', emoji:'🥤', name:'Спрайт 0,3', price:130},
+  {id:'d3', cat:'drinks', emoji:'🥤', name:'Фанта 0,3', price:130},
+  {id:'d4', cat:'drinks', emoji:'🧃', name:'Сок 0,2', price:100},
+  {id:'d5', cat:'drinks', emoji:'⚡', name:'Энергетик', price:180},
+  {id:'h1', cat:'hot', emoji:'🍵', name:'Чай чёрный', price:50},
+  {id:'h2', cat:'hot', emoji:'🍵', name:'Чай зелёный', price:50},
+  {id:'h3', cat:'hot', emoji:'🍋', name:'Чай с лимоном', price:60},
+  {id:'h4', cat:'hot', emoji:'🥛', name:'Чай с молоком', price:60},
+  {id:'h5', cat:'hot', emoji:'☕', name:'Кофе 3 в 1', price:60}
+];
+const CATS = [
+  ['burgers','🍔 Бургеры','cards'],
+  ['extra','🍟 Дополнительно','list'],
+  ['drinks','🥤 Напитки','list'],
+  ['hot','☕ Горячие напитки','list']
+];
+
+const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
+const $ = s => document.querySelector(s);
+
+/* ================== РЕНДЕР МЕНЮ ================== */
+const root = $('#menuRoot');
+CATS.forEach(([key, title, type]) => {
+  const items = MENU.filter(m => m.cat === key);
+  const sec = document.createElement('div');
+  sec.className = 'menu-cat';
+  sec.innerHTML = `<div class="menu-cat-title">${title}</div>`;
+  if (type === 'cards') {
+    const grid = document.createElement('div');
+    grid.className = 'menu-grid';
+    grid.innerHTML = items.map(m => `
+      <div class="card">
+        <div class="card-img">${m.emoji}</div>
+        <div class="card-body">
+          <h3>${m.name}</h3>
+          <p class="comp">${m.desc || ''}</p>
+          <div class="card-bottom">
+            <span class="price">${fmt(m.price)}</span>
+            <button class="btn-add" data-add="${m.id}">В корзину</button>
+          </div>
+        </div>
+      </div>`).join('');
+    sec.appendChild(grid);
+  } else {
+    const list = document.createElement('div');
+    list.className = 'simple-list';
+    list.innerHTML = items.map(m => `
+      <div class="simple-item">
+        <span>${m.emoji} ${m.name}</span>
+        <span class="row-right">
+          <span class="price">${fmt(m.price)}</span>
+          <button class="btn-add-sm" data-add="${m.id}" aria-label="Добавить в корзину">+</button>
+        </span>
+      </div>`).join('');
+    sec.appendChild(list);
+  }
+  root.appendChild(sec);
+});
+
+/* ================== КОРЗИНА ================== */
+let cart = {};
+try { cart = JSON.parse(localStorage.getItem('tot_cart') || '{}'); } catch(e) { cart = {}; }
+const save = () => localStorage.setItem('tot_cart', JSON.stringify(cart));
+
+function cartCount() { return Object.values(cart).reduce((s, q) => s + q, 0); }
+function cartSum() { return Object.entries(cart).reduce((s, [id, q]) => { const p = MENU.find(m => m.id === id); return p ? s + p.price * q : s; }, 0); }
+
+function renderCart() {
+  const ids = Object.keys(cart);
+  const badge = $('#cartBadge');
+  badge.textContent = cartCount();
+  badge.classList.toggle('hidden-el', cartCount() === 0);
+  $('#cartEmpty').classList.toggle('hidden-el', ids.length > 0);
+  $('#cartContent').classList.toggle('hidden-el', ids.length === 0);
+  $('#cartItems').innerHTML = ids.map(id => {
+    const p = MENU.find(m => m.id === id);
+    if (!p) return '';
+    const q = cart[id];
+    return `
+      <div class="ci">
+        <div class="ci-emoji">${p.emoji}</div>
+        <div class="ci-info">
+          <div class="ci-name">${p.name}</div>
+          <div class="ci-price">${fmt(p.price)} / шт</div>
+        </div>
+        <div class="qty">
+          <button data-dec="${id}" aria-label="Меньше">−</button><span>${q}</span><button data-inc="${id}" aria-label="Больше">+</button>
+        </div>
+        <div class="ci-sum">${fmt(p.price * q)}</div>
+        <button class="ci-del" data-rem="${id}" aria-label="Удалить">✕</button>
+      </div>`;
+  }).join('');
+  $('#cartTotal').textContent = fmt(cartSum());
+}
+
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  save(); renderCart();
+  const badge = $('#cartBadge');
+  badge.classList.remove('pulse'); void badge.offsetWidth; badge.classList.add('pulse');
+  const p = MENU.find(m => m.id === id);
+  toast(`${p.emoji} ${p.name} — в корзине`);
+}
+function changeQty(id, d) {
+  if (!cart[id]) return;
+  cart[id] += d;
+  if (cart[id] <= 0) delete cart[id];
+  save(); renderCart();
+}
+
+/* Делегирование кликов */
+document.addEventListener('click', e => {
+  const add = e.target.closest('[data-add]');
+  if (add) { addToCart(add.dataset.add); return; }
+  const inc = e.target.closest('[data-inc]');
+  if (inc) { changeQty(inc.dataset.inc, 1); return; }
+  const dec = e.target.closest('[data-dec]');
+  if (dec) { changeQty(dec.dataset.dec, -1); return; }
+  const rem = e.target.closest('[data-rem]');
+  if (rem) { delete cart[rem.dataset.rem]; save(); renderCart(); return; }
+});
+
+/* Открытие/закрытие корзины */
+const drawer = $('#cartDrawer'), overlay = $('#cartOverlay');
+function openCart() { drawer.classList.add('open'); overlay.classList.add('show'); document.body.classList.add('locked'); }
+function closeCart() { drawer.classList.remove('open'); overlay.classList.remove('show'); document.body.classList.remove('locked'); }
+document.querySelectorAll('[data-cart]').forEach(b => b.addEventListener('click', openCart));
+document.querySelectorAll('[data-close-cart]').forEach(b => b.addEventListener('click', closeCart));
+overlay.addEventListener('click', closeCart);
+
+/* Доставка / самовывоз */
+const addrField = $('#addrField'), pickField = $('#pickField'), addrInput = $('#caddr');
+document.querySelectorAll('input[name="method"]').forEach(r => r.addEventListener('change', updateMethod));
+function updateMethod() {
+  const v = document.querySelector('input[name="method"]:checked').value;
+  addrField.classList.toggle('hidden-el', v !== 'delivery');
+  pickField.classList.toggle('hidden-el', v !== 'pickup');
+  addrInput.required = (v === 'delivery');
+}
+
+/* ================== ОФОРМЛЕНИЕ ЗАКАЗА ================== */
+function buildOrderText() {
+  const name = $('#cname').value.trim();
+  const phone = $('#cphone').value.trim();
+  const method = document.querySelector('input[name="method"]:checked').value;
+  const address = addrInput.value.trim();
+  const point = $('#cpick').value;
+  const comment = $('#ccom').value.trim();
+
+  const L = [];
+  L.push('🛒 НОВЫЙ ЗАКАЗ С САЙТА — ТОТ БУРГЕР');
+  L.push('');
+  L.push('👤 ' + name);
+  L.push('📞 ' + phone);
+  if (method === 'delivery') { L.push('🛵 Доставка'); L.push('📍 ' + address); }
+  else { L.push('🏠 Самовывоз: ' + point); }
+  if (comment) L.push('💬 ' + comment);
+  L.push('');
+  L.push('— СОСТАВ ЗАКАЗА —');
+  Object.entries(cart).forEach(([id, q], i) => {
+    const p = MENU.find(m => m.id === id);
+    if (p) L.push(`${i + 1}. ${p.name} × ${q} = ${fmt(p.price * q)}`);
+  });
+  L.push('');
+  L.push('💰 ИТОГО: ' + fmt(cartSum()));
+  if (method === 'delivery') L.push('🛵 Стоимость доставки: уточнит оператор');
+  return L.join('\n');
+}
+
+ $('#orderForm').addEventListener('submit', e => {
+  e.preventDefault();
+  if (cartCount() === 0) { toast('Корзина пуста'); return; }
+  const text = buildOrderText();
+
+  if (CONFIG.TEST_MODE) {
+    $('#orderPreview').textContent = text;
+    $('#testModal').classList.add('show');
+    return;
+  }
+  window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text), '_blank');
+  cart = {}; save(); renderCart(); closeCart();
+  toast('✅ Заказ отправлен! Мы перезвоним для подтверждения');
+});
+
+/* Модалка */
+const testModal = $('#testModal');
+document.querySelectorAll('[data-close-modal]').forEach(b => b.addEventListener('click', () => testModal.classList.remove('show')));
+testModal.addEventListener('click', e => { if (e.target === testModal) testModal.classList.remove('show'); });
+ $('#copyOrder').addEventListener('click', () => {
+  const t = $('#orderPreview').textContent;
+  const done = () => toast('📋 Текст скопирован');
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(t).then(done).catch(() => fallbackCopy(t, done));
+  } else fallbackCopy(t, done);
+});
+function fallbackCopy(t, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); cb(); } catch(e) {}
+  ta.remove();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeCart(); testModal.classList.remove('show'); }
+});
+
+/* Тост */
+let toastTimer;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* Инициализация */
+if (CONFIG.TEST_MODE) $('#testNote').classList.remove('hidden-el');
+updateMethod();
+renderCart();
+</script>
+</body>
+</html>
