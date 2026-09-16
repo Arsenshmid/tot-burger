@@ -129,6 +129,7 @@
   .radio-row label{flex:1;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:14px}
   .radio-row input{accent-color:var(--orange)}
   .test-note{background:#2a1f10;border:1px solid var(--orange);border-radius:10px;color:var(--orange);font-size:12px;padding:10px 12px;margin-bottom:14px}
+  .delivery-notice{background:#2a1f10;border:1px solid var(--orange);border-radius:10px;color:var(--orange);font-size:13px;padding:10px 12px;margin-bottom:14px;text-align:left}
 
   /* Модалки */
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:300;padding:16px}
@@ -204,7 +205,8 @@
   <div class="container">
     <div class="delivery">
       <h3>🛵 Доставка и самовывоз</h3>
-      <p>Соберите заказ в корзине — он придёт нам в WhatsApp, и мы перезвоним для подтверждения. Оплатить можно переводом по СБП (из любого банка) или при получении. Стоимость и время доставки уточнит оператор.</p>
+      <p>ℹ️ Доставка находится на стадии запуска и появится в ближайшее время. На текущий момент собственной службы доставки у нас нет. Вы можете забрать заказ самостоятельно в одной из наших точек либо самостоятельно вызвать курьера (например, через сервис Яндекс Доставка) — он заберёт ваш заказ за вас. О запуске доставки сообщим дополнительно.
+        Соберите заказ в корзине — он придёт нам в WhatsApp, и мы перезвоним для подтверждения. Оплатить можно переводом по СБП (из любого банка) или при получении.</p>
       <div class="delivery-btns">
         <a class="btn" href="#menu">🛒 Собрать заказ</a>
         <a class="btn btn-outline" href="tel:+79679122416">📞 Позвонить</a>
@@ -295,8 +297,9 @@
           </div>
           <div class="radio-row">
             <label><input type="radio" name="method" value="delivery" checked> 🛵 Доставка</label>
-            <label><input type="radio" name="method" value="pickup"> 🏠 Самовывоз</label>
+            <label><input type="radio" name="method" value="pickup"> 🏠 Самовывоз</label>            
           </div>
+          <p id="deliveryNote" class="delivery-notice hidden-el">ℹ️ Собственной доставки пока нет. Оформите самовывоз либо после подтверждения заказа вызовите курьера самостоятельно — он заберёт заказ в нашей точке.</p>
           <div class="field" id="addrField">
             <label for="caddr">Адрес доставки *</label>
             <input id="caddr" required placeholder="Улица, дом, квартира, подъезд">
@@ -522,6 +525,7 @@ function updateMethod() {
   addrField.classList.toggle('hidden-el', v !== 'delivery');
   pickField.classList.toggle('hidden-el', v !== 'pickup');
   addrInput.required = (v === 'delivery');
+  $('#deliveryNote').classList.toggle('hidden-el', v !== 'delivery');
 }
 
 
@@ -583,7 +587,7 @@ function buildOrderText() {
   L.push('');
   L.push('👤 ' + name);
   L.push('📞 ' + phone);
-  if (method === 'delivery') { L.push('🛵 Доставка'); L.push('📍 ' + address); }
+  if (method === 'delivery') { L.push('🛵 Доставка'); L.push('📍 ' + address); L.push('ℹ️ Собственной доставки пока нет — клиент вызывает курьера самостоятельно'); }
   else { L.push('🏠 Самовывоз: ' + point); }
   if (payment === 'sbp') L.push('💳 Оплата: СБП-перевод (чек пришлю в этот чат)');
   else L.push('💳 Оплата: при получении');
@@ -596,7 +600,7 @@ function buildOrderText() {
   });
   L.push('');
   L.push('💰 ИТОГО: ' + fmt(cartSum()));
-  if (method === 'delivery') L.push('🛵 Стоимость доставки: уточнит оператор');
+  // if (method === 'delivery') L.push('🛵 Стоимость доставки: уточнит оператор');
   return L.join('\n');
 }
 
