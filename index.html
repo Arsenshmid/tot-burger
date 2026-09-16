@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ТОТ Бургер — ТОТ Самый бургер в Якутске</title>
-<meta name="description" content="ТОТ Бургер Якутск: сочные бургеры из свежих ингредиентов. Доставка и самовывоз. Дежнева 13 и 202 микрорайон.">
+<meta name="description" content="ТОТ Бургер Якутск: сочные бургеры из свежих ингредиентов. Доставка и самовывоз. Дежнева 13 и 202 микрорайон. Оплата СБП или при получении.">
 <style>
   :root{
     --bg:#0d0d0d; --card:#1a1a1a; --orange:#f58220; --orange-dark:#d96d0e;
@@ -82,12 +82,6 @@
   .btn-add-sm:hover{background:var(--orange-dark)}
   .btn-add-sm:active{transform:scale(.9)}
 
-  /* Преимущества */
-  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;text-align:center}
-  .feature .ico{font-size:40px}
-  .feature h4{margin:10px 0 6px;text-transform:uppercase;font-size:16px}
-  .feature p{color:var(--muted);font-size:14px}
-
   /* Адреса */
   .locations{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
   .loc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px}
@@ -136,7 +130,7 @@
   .radio-row input{accent-color:var(--orange)}
   .test-note{background:#2a1f10;border:1px solid var(--orange);border-radius:10px;color:var(--orange);font-size:12px;padding:10px 12px;margin-bottom:14px}
 
-  /* Модалка тестового заказа */
+  /* Модалки */
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:300;padding:16px}
   .modal.show{display:flex}
   .modal-box{background:var(--card);border:1px solid var(--border);border-radius:16px;max-width:500px;width:100%;padding:22px;max-height:88vh;overflow-y:auto}
@@ -145,6 +139,20 @@
   .modal-note{color:var(--muted);font-size:13px;margin-bottom:14px}
   .modal-box pre{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:13px;white-space:pre-wrap;font-family:inherit;margin-bottom:16px;max-height:320px;overflow:auto}
   .modal-btns{display:flex;gap:10px;flex-wrap:wrap}
+  .modal-btns.col{flex-direction:column;flex-wrap:nowrap}
+
+  /* Оплата СБП */
+  .pay-amount{text-align:center;font-size:38px;font-weight:900;color:var(--orange);margin:2px 0 12px}
+  .pay-to{text-align:center;color:var(--muted);font-size:13px;margin-bottom:16px}
+  .pay-to b{color:var(--text);font-size:17px}
+  .pay-steps{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--muted);margin-bottom:16px}
+  .pay-step{margin:6px 0}
+  .pay-step b{color:var(--text)}
+  .bank-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+  @media(max-width:400px){.bank-row{grid-template-columns:repeat(2,1fr)}}
+  .bank-btn{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 4px;text-align:center;cursor:pointer;color:var(--text);font-size:12px;font-weight:700;font-family:inherit}
+  .bank-btn:hover{border-color:var(--orange)}
+  .bank-btn .b-ico{font-size:20px;display:block;margin-bottom:4px}
 
   /* Тост */
   .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(16px);background:var(--orange);color:#0d0d0d;font-weight:800;padding:11px 22px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:400;font-size:14px;white-space:nowrap;max-width:92vw}
@@ -187,7 +195,7 @@
     <div class="hero-badges">
       <div>🔥 Сочные котлеты</div>
       <div>🍃 Свежие ингредиенты</div>
-      <div>⭐ Фирменные соусы</div>
+      <div>💳 Оплата СБП или при получении</div>
     </div>
   </div>
 </section>
@@ -196,7 +204,7 @@
   <div class="container">
     <div class="delivery">
       <h3>🛵 Доставка и самовывоз</h3>
-      <p>Соберите заказ в корзине — он придёт нам в WhatsApp, и мы перезвоним для подтверждения. Можно просто позвонить. Стоимость и время доставки уточнит оператор.</p>
+      <p>Соберите заказ в корзине — он придёт нам в WhatsApp, и мы перезвоним для подтверждения. Оплатить можно переводом по СБП (из любого банка) или при получении. Стоимость и время доставки уточнит оператор.</p>
       <div class="delivery-btns">
         <a class="btn" href="#menu">🛒 Собрать заказ</a>
         <a class="btn btn-outline" href="tel:+79679122416">📞 Позвонить</a>
@@ -267,7 +275,7 @@
       <div class="cart-items" id="cartItems"></div>
       <div class="cart-foot">
         <div class="total-row"><span>Итого:</span><span id="cartTotal">0 ₽</span></div>
-        <p class="deliv-note">Стоимость доставки согласуется с оператором при подтверждении заказа</p>
+        <p class="deliv-note">Оплата: перевод по СБП или при получении. Стоимость доставки согласуется с оператором</p>
         <form id="orderForm">
           <h4 class="form-title">Данные для заказа</h4>
           <div class="field">
@@ -277,6 +285,13 @@
           <div class="field">
             <label for="cphone">Телефон *</label>
             <input id="cphone" type="tel" required placeholder="+7 9xx xxx-xx-xx">
+          </div>
+          <div class="field">
+            <label>Способ оплаты *</label>
+            <div class="radio-row" style="margin-bottom:0">
+              <label><input type="radio" name="payment" value="cash" checked> 💵 При получении</label>
+              <label><input type="radio" name="payment" value="sbp"> 📲 СБП-перевод</label>
+            </div>
           </div>
           <div class="radio-row">
             <label><input type="radio" name="method" value="delivery" checked> 🛵 Доставка</label>
@@ -309,7 +324,7 @@
 <div class="modal" id="testModal">
   <div class="modal-box">
     <div class="modal-head"><h3>🧪 Тестовый заказ</h3><button class="icon-btn" data-close-modal aria-label="Закрыть">×</button></div>
-    <p class="modal-note">Заказ будет отправлен в WhatsApp на номер <b>+7 967 912-24-16</b>.</p>
+    <p class="modal-note">Заказ будет отправлен в WhatsApp на номер <b>+7 967 912-24-16</b>. При оплате СБП после этого откроется экран оплаты.</p>
     <pre id="orderPreview"></pre>
     <div class="modal-btns">
       <button class="btn" id="copyOrder">Скопировать текст</button>
@@ -318,13 +333,44 @@
   </div>
 </div>
 
+<!-- Модалка оплаты СБП -->
+<div class="modal" id="sbpModal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>📲 Оплата по СБП</h3><button class="icon-btn" data-close-sbp aria-label="Закрыть">×</button></div>
+    <p class="modal-note">Заказ уже отправлен в WhatsApp. Осталось оплатить и прислать чек в тот же чат.</p>
+    <div class="pay-amount" id="sbpAmount">0 ₽</div>
+    <div class="pay-to">Перевод по СБП на номер <b>8 911 294-35-13</b><br>Получатель — СберБанк (определится автоматически, платите из любого банка)</div>
+    <div class="pay-steps">
+      <div class="pay-step"><b>1.</b> Откройте приложение <b>вашего банка</b> → «Перевод по СБП» → «По номеру телефона»</div>
+      <div class="pay-step"><b>2.</b> Введите номер <b>8 911 294-35-13</b> — банк получателя (Сбер) подставится сам</div>
+      <div class="pay-step"><b>3.</b> Переведите сумму заказа и сделайте <b>скриншот чека</b></div>
+      <div class="pay-step"><b>4.</b> Нажмите «Отправить чек в WhatsApp» ниже и прикрепите скриншот в чат с заказом</div>
+    </div>
+    <div class="bank-row">
+      <button type="button" class="bank-btn" data-scheme="sberbankonline://" data-web="https://online.sberbank.ru/"><span class="b-ico">🟢</span>Сбер</button>
+      <button type="button" class="bank-btn" data-scheme="tinkoffbank://" data-web="https://www.tbank.ru/"><span class="b-ico">🟡</span>Т-Банк</button>
+      <button type="button" class="bank-btn" data-scheme="alfabank://" data-web="https://alfabank.ru/"><span class="b-ico">🔴</span>Альфа</button>
+      <button type="button" class="bank-btn" data-scheme="vtb24://" data-web="https://www.vtb.ru/"><span class="b-ico">🔵</span>ВТБ</button>
+    </div>
+    <div class="modal-btns col">
+      <button class="btn btn-block" id="sendReceipt">💬 Отправить чек в WhatsApp</button>
+      <button class="btn btn-outline btn-block" id="copySbpNumber">Скопировать номер: 8 911 294-35-13</button>
+      <button class="btn btn-outline btn-block" id="copySbpAmount">Скопировать сумму</button>
+      <button class="btn btn-outline btn-block" data-close-sbp>Закрыть</button>
+    </div>
+    <p class="modal-note" style="margin-top:12px;margin-bottom:0">Кнопки банков открывают приложение — если не открылось, запустите ваш банк вручную. Заказ подтвердим после поступления перевода.</p>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 /* ================== НАСТРОЙКИ ================== */
 const CONFIG = {
-  whatsapp: '79679122416',   // номер для приёма заказов (без + и пробелов)
-  TEST_MODE: false            // true = тест (заказ не отправляется), false = реальные заказы в WhatsApp
+  whatsapp: '79679122416',       // WhatsApp для заказов и чеков (без + и пробелов)
+  sbpPhone: '79112943513',       // номер получателя СБП (без + и пробелов)
+  sbpDisplay: '8 911 294-35-13', // как показываем номер для оплаты
+  TEST_MODE: false               // true = тест (заказ не отправляется), false = реальные заказы
 };
 
 /* ================== МЕНЮ ================== */
@@ -478,11 +524,56 @@ function updateMethod() {
   addrInput.required = (v === 'delivery');
 }
 
+
+
+/* ================== МАСКА ТЕЛЕФОНА ================== */
+const phoneInput = $('#cphone');
+let prevDigits = '';   // сколько цифр было после прошлого ввода
+let prevRaw = '';      // как выглядело поле после прошлого ввода
+
+phoneInput.addEventListener('input', () => {
+  let d = phoneInput.value.replace(/\D/g, ''); // только цифры
+
+  // Символов стало меньше, а цифр столько же — значит стёрли разделитель
+  // (скобку, дефис, пробел). Тогда стираем ещё и цифру, иначе маска
+  // вернёт разделитель на место и поле "зависнет"
+  if (phoneInput.value.length < prevRaw.length && d.length === prevDigits.length && d.length > 0) {
+    d = d.slice(0, -1);
+  }
+
+  if (d.length === 0) {              // поле полностью очистили
+    phoneInput.value = '';
+    prevDigits = '';
+    prevRaw = '';
+    return;
+  }
+  if (d[0] === '8') d = '7' + d.slice(1);   // 8914... -> 7914...
+  else if (d[0] !== '7') d = '7' + d;       // 914...  -> 7914...
+  d = d.slice(0, 11);                        // не длиннее 11 цифр
+
+  let out = '+7';
+  if (d.length > 1) out += ' (' + d.slice(1, 4);
+  if (d.length >= 4) out += ')';
+  if (d.length > 4) out += ' ' + d.slice(4, 7);
+  if (d.length > 7) out += '-' + d.slice(7, 9);
+  if (d.length > 9) out += '-' + d.slice(9, 11);
+
+  phoneInput.value = out;
+  prevDigits = d;
+  prevRaw = out;
+  phoneInput.setSelectionRange(out.length, out.length); // курсор в конец
+});
+
+
+
+
 /* ================== ОФОРМЛЕНИЕ ЗАКАЗА ================== */
+
 function buildOrderText() {
   const name = $('#cname').value.trim();
   const phone = $('#cphone').value.trim();
   const method = document.querySelector('input[name="method"]:checked').value;
+  const payment = document.querySelector('input[name="payment"]:checked').value;
   const address = addrInput.value.trim();
   const point = $('#cpick').value;
   const comment = $('#ccom').value.trim();
@@ -494,6 +585,8 @@ function buildOrderText() {
   L.push('📞 ' + phone);
   if (method === 'delivery') { L.push('🛵 Доставка'); L.push('📍 ' + address); }
   else { L.push('🏠 Самовывоз: ' + point); }
+  if (payment === 'sbp') L.push('💳 Оплата: СБП-перевод (чек пришлю в этот чат)');
+  else L.push('💳 Оплата: при получении');
   if (comment) L.push('💬 ' + comment);
   L.push('');
   L.push('— СОСТАВ ЗАКАЗА —');
@@ -510,29 +603,81 @@ function buildOrderText() {
  $('#orderForm').addEventListener('submit', e => {
   e.preventDefault();
   if (cartCount() === 0) { toast('Корзина пуста'); return; }
+  if ($('#cphone').value.replace(/\D/g, '').length !== 11) {
+    toast('Введите телефон полностью');
+    return;
+  }
   const text = buildOrderText();
+  const payment = document.querySelector('input[name="payment"]:checked').value;
 
   if (CONFIG.TEST_MODE) {
-    $('#orderPreview').textContent = text;
+    $('#orderPreview').textContent = text + (payment === 'sbp' ? '\n\n(далее откроется экран оплаты СБП)' : '');
     $('#testModal').classList.add('show');
     return;
   }
+
+  /* 1. Отправляем заказ в WhatsApp */
   window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text), '_blank');
-  cart = {}; save(); renderCart(); closeCart();
-  toast('✅ Заказ отправлен! Мы перезвоним для подтверждения');
+  cart = {}; save(); renderCart();
+
+  /* 2. При СБП — открываем экран оплаты */
+  if (payment === 'sbp') {
+    closeCart();
+    openSbpModal();
+  } else {
+    closeCart();
+    toast('✅ Заказ отправлен! Мы перезвоним для подтверждения');
+  }
 });
 
-/* Модалка */
+/* ================== ОПЛАТА СБП ================== */
+const sbpModal = $('#sbpModal');
+let sbpSum = 0;
+
+function openSbpModal() {
+  sbpSum = arguments.length ? arguments[0] : cartSum();
+  $('#sbpAmount').textContent = fmt(sbpSum);
+  sbpModal.classList.add('show');
+}
+function closeSbp() { sbpModal.classList.remove('show'); }
+document.querySelectorAll('[data-close-sbp]').forEach(b => b.addEventListener('click', closeSbp));
+sbpModal.addEventListener('click', e => { if (e.target === sbpModal) closeSbp(); });
+
+ $('#sendReceipt').addEventListener('click', () => {
+  /* открываем тот же чат без текста — клиент прикрепит скрин чека */
+  window.open('https://wa.me/' + CONFIG.whatsapp, '_blank');
+  closeSbp();
+  toast('📎 Прикрепите скрин чека и отправьте');
+});
+
+ $('#copySbpNumber').addEventListener('click', () => copyText(CONFIG.sbpPhone, '📋 Номер скопирован'));
+ $('#copySbpAmount').addEventListener('click', () => copyText(String(sbpSum), '📋 Сумма скопирована'));
+
+/* Кнопки банков: пробуем открыть приложение, если не вышло — сайт банка */
+document.querySelectorAll('.bank-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    let appOpened = false;
+    const mark = () => { appOpened = true; };
+    window.addEventListener('pagehide', mark, { once: true });
+    window.addEventListener('blur', mark, { once: true });
+    setTimeout(() => { if (!appOpened) window.open(btn.dataset.web, '_blank'); }, 1200);
+    window.location.href = btn.dataset.scheme;
+  });
+});
+
+/* ================== МОДАЛКА / КОПИРОВАНИЕ ================== */
 const testModal = $('#testModal');
 document.querySelectorAll('[data-close-modal]').forEach(b => b.addEventListener('click', () => testModal.classList.remove('show')));
 testModal.addEventListener('click', e => { if (e.target === testModal) testModal.classList.remove('show'); });
- $('#copyOrder').addEventListener('click', () => {
-  const t = $('#orderPreview').textContent;
-  const done = () => toast('📋 Текст скопирован');
+
+ $('#copyOrder').addEventListener('click', () => copyText($('#orderPreview').textContent, '📋 Текст скопирован'));
+
+function copyText(t, msg) {
+  const done = () => toast(msg);
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(t).then(done).catch(() => fallbackCopy(t, done));
   } else fallbackCopy(t, done);
-});
+}
 function fallbackCopy(t, cb) {
   const ta = document.createElement('textarea');
   ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
@@ -542,10 +687,10 @@ function fallbackCopy(t, cb) {
 }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeCart(); testModal.classList.remove('show'); }
+  if (e.key === 'Escape') { closeCart(); testModal.classList.remove('show'); closeSbp(); }
 });
 
-/* Тост */
+/* ================== ТОСТ ================== */
 let toastTimer;
 function toast(msg) {
   const t = $('#toast');
@@ -555,7 +700,7 @@ function toast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-/* Инициализация */
+/* ================== ИНИЦИАЛИЗАЦИЯ ================== */
 if (CONFIG.TEST_MODE) $('#testNote').classList.remove('hidden-el');
 updateMethod();
 renderCart();
