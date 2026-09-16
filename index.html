@@ -151,14 +151,12 @@
   .pay-amount{text-align:center;font-size:38px;font-weight:900;color:var(--orange);margin:2px 0 12px}
   .pay-to{text-align:center;color:var(--muted);font-size:13px;margin-bottom:16px}
   .pay-to b{color:var(--text);font-size:17px}
-  .pay-steps{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--muted);margin-bottom:16px}
-  .pay-step{margin:6px 0}
-  .pay-step b{color:var(--text)}
-  .bank-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
-  @media(max-width:400px){.bank-row{grid-template-columns:repeat(2,1fr)}}
+  .bank-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
   .bank-btn{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 4px;text-align:center;cursor:pointer;color:var(--text);font-size:12px;font-weight:700;font-family:inherit}
   .bank-btn:hover{border-color:var(--orange)}
   .bank-btn .b-ico{font-size:20px;display:block;margin-bottom:4px}
+  .link-mini{background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline;padding:4px 6px;font-family:inherit}
+  .link-mini:hover{color:var(--orange)}
 
   /* Тост */
   .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(16px);background:var(--orange);color:#0d0d0d;font-weight:800;padding:11px 22px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:400;font-size:14px;white-space:nowrap;max-width:92vw}
@@ -224,7 +222,7 @@
   <div class="container">
     <h2 class="section-title">Меню</h2>
     <div class="orange-line"></div>
-    <p class="section-sub">Всё готовим после заказа · 🌶 Острый соус к любому бургеру — +50 ₽</p>
+    <p class="section-sub">Всё готовим после заказа · 🌶 Острый соус к бургеру — +50 ₽</p>
     <div id="menuRoot"></div>
   </div>
 </section>
@@ -345,28 +343,37 @@
 <div class="modal" id="sbpModal">
   <div class="modal-box">
     <div class="modal-head"><h3>📲 Оплата по СБП</h3><button class="icon-btn" data-close-sbp aria-label="Закрыть">×</button></div>
-    <p class="modal-note">Заказ уже отправлен в WhatsApp. Осталось оплатить и прислать чек в тот же чат.</p>
-    <div class="pay-amount" id="sbpAmount">0 ₽</div>
-    <div class="pay-to">Перевод по СБП на номер <b>8 911 294-35-13</b><br>Получатель — СберБанк (определится автоматически, платите из любого банка)</div>
-    <div class="pay-steps">
-      <div class="pay-step"><b>1.</b> Откройте приложение <b>вашего банка</b> → «Перевод по СБП» → «По номеру телефона»</div>
-      <div class="pay-step"><b>2.</b> Введите номер <b>8 911 294-35-13</b> — банк получателя (Сбер) подставится сам</div>
-      <div class="pay-step"><b>3.</b> Переведите сумму заказа и сделайте <b>скриншот чека</b></div>
-      <div class="pay-step"><b>4.</b> Нажмите «Отправить чек в WhatsApp» ниже и прикрепите скриншот в чат с заказом</div>
+
+    <!-- Шаг 1: сумма и одна кнопка -->
+    <div id="sbpStep1">
+      <p class="modal-note">Заказ уже отправлен в WhatsApp. Осталось оплатить переводом по СБП и прислать чек в тот же чат.</p>
+      <div class="pay-amount" id="sbpAmount">0 ₽</div>
+      <div class="pay-to">Получатель: <b>8 911 294-35-13</b> · СберБанк<br>Перевод по номеру телефона — из любого банка</div>
+      <div class="modal-btns col">
+        <button class="btn btn-block" id="sbpPayBtn">📲 Оплатить по СБП</button>
+        <button class="btn btn-outline btn-block" id="sendReceipt">💬 Отправить чек в WhatsApp</button>
+      </div>
     </div>
-    <div class="bank-row">
-      <button type="button" class="bank-btn" data-scheme="sberbankonline://" data-web="https://online.sberbank.ru/"><span class="b-ico">🟢</span>Сбер</button>
-      <button type="button" class="bank-btn" data-scheme="tinkoffbank://" data-web="https://www.tbank.ru/"><span class="b-ico">🟡</span>Т-Банк</button>
-      <button type="button" class="bank-btn" data-scheme="alfabank://" data-web="https://alfabank.ru/"><span class="b-ico">🔴</span>Альфа</button>
-      <button type="button" class="bank-btn" data-scheme="vtb24://" data-web="https://www.vtb.ru/"><span class="b-ico">🔵</span>ВТБ</button>
+
+    <!-- Шаг 2: выбор банка -->
+    <div id="sbpStep2" class="hidden-el">
+      <p class="modal-note">Выберите ваш банк — откроется его приложение. Переведите сумму заказа на номер <b>8 911 294-35-13</b>, сделайте скрин чека и отправьте в WhatsApp.</p>
+      <div class="bank-row">
+        <button type="button" class="bank-btn" data-scheme="sberbankonline://" data-web="https://online.sberbank.ru/"><span class="b-ico">🟢</span>Сбер</button>
+        <button type="button" class="bank-btn" data-scheme="tinkoffbank://" data-web="https://www.tbank.ru/"><span class="b-ico">🟡</span>Т-Банк</button>
+        <button type="button" class="bank-btn" data-scheme="alfabank://" data-web="https://alfabank.ru/"><span class="b-ico">🔴</span>Альфа</button>
+        <button type="button" class="bank-btn" data-scheme="vtb24://" data-web="https://www.vtb.ru/"><span class="b-ico">🔵</span>ВТБ</button>
+        <button type="button" class="bank-btn" data-scheme="ozonbank://" data-web="https://www.ozonbank.ru/"><span class="b-ico">🔷</span>Озон</button>
+        <button type="button" class="bank-btn" data-scheme="" data-web=""><span class="b-ico">🏦</span>Другой</button>
+      </div>
+      <div class="modal-btns" style="justify-content:center;margin-bottom:12px">
+        <button class="link-mini" id="copySbpNumber">Скопировать номер</button>
+        <button class="link-mini" id="copySbpAmount">Скопировать сумму</button>
+      </div>
+      <div class="modal-btns col">
+        <button class="btn btn-outline btn-block" id="sbpBack">← Назад</button>
+      </div>
     </div>
-    <div class="modal-btns col">
-      <button class="btn btn-block" id="sendReceipt">💬 Отправить чек в WhatsApp</button>
-      <button class="btn btn-outline btn-block" id="copySbpNumber">Скопировать номер: 8 911 294-35-13</button>
-      <button class="btn btn-outline btn-block" id="copySbpAmount">Скопировать сумму</button>
-      <button class="btn btn-outline btn-block" data-close-sbp>Закрыть</button>
-    </div>
-    <p class="modal-note" style="margin-top:12px;margin-bottom:0">Кнопки банков открывают приложение — если не открылось, запустите ваш банк вручную. Заказ подтвердим после поступления перевода.</p>
   </div>
 </div>
 
@@ -378,6 +385,10 @@ const CONFIG = {
   whatsapp: '79679122416',       // WhatsApp для заказов и чеков (без + и пробелов)
   sbpPhone: '79112943513',       // номер получателя СБП (без + и пробелов)
   sbpDisplay: '8 911 294-35-13', // как показываем номер для оплаты
+  sbpPayUrl: '',                 /* СЮДА вписать ссылку СБП-эквайринга, когда начальник её пришлёт.
+                                    Пример: 'https://qr.nspk.ru/AD10XXXX...?type=02&sum={SUM_KOP}&cur=RUB'
+                                    {SUM_KOP} заменится на сумму в копейках, {SUM} — в рублях.
+                                    Пока пусто — кнопка "Оплатить по СБП" ведёт на выбор банка здесь же. */
   TEST_MODE: false               // true = тест (заказ не отправляется), false = реальные заказы
 };
 
@@ -386,7 +397,7 @@ const SPICY_PRICE = 50;          // доплата за острый соус к
 const SPICY_SUFFIX = '__s';      // служебный суффикс варианта "с острым соусом"
 
 const MENU = [
-  {id:'b1', cat:'burgers', emoji:'🍔', name:'ТОТ Самый', price:590, weight:'400 г',
+  {id:'b1', cat:'burgers', emoji:'🍔', name:'ТОТ Самый', price:590, weight:'400 г', noSpicy:true,
    desc:'Обжаренная булочка, говяжья котлета 170 г, сыр гауда, салат, помидоры, маринованные огурцы, красный лук, майонез, кетчуп'},
   {id:'b2', cat:'burgers', emoji:'🧀', name:'ТОТ Самый сырный', price:640, weight:'460 г',
    desc:'Обжаренная булочка, говяжья котлета 170 г, двойной сыр гауда, бекон, салат, помидоры, маринованные огурцы, красный лук, сырный соус, соус барбекю, кетчуп'},
@@ -452,7 +463,7 @@ CATS.forEach(([key, title, type]) => {
             <span class="price">${fmt(m.price)}</span>
             <span class="btn-group">
               <button class="btn-add" data-add="${m.id}">В корзину</button>
-              <button class="btn-spicy" data-add-spicy="${m.id}" title="Добавить острый соус, +${SPICY_PRICE} ₽">🌶 +${SPICY_PRICE} ₽</button>
+              ${m.noSpicy ? '' : `<button class="btn-spicy" data-add-spicy="${m.id}" title="Добавить острый соус, +${SPICY_PRICE} ₽">🌶 +${SPICY_PRICE} ₽</button>`}
             </span>
           </div>
         </div>
@@ -648,6 +659,9 @@ function buildOrderText() {
     return;
   }
 
+  /* Запоминаем сумму ДО очистки корзины — иначе на экране СБП будет 0 ₽ */
+  const sum = cartSum();
+
   /* 1. Отправляем заказ в WhatsApp */
   window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text), '_blank');
   cart = {}; save(); renderCart();
@@ -655,7 +669,7 @@ function buildOrderText() {
   /* 2. При СБП — открываем экран оплаты */
   if (payment === 'sbp') {
     closeCart();
-    openSbpModal();
+    openSbpModal(sum);
   } else {
     closeCart();
     toast('✅ Заказ отправлен! Мы перезвоним для подтверждения');
@@ -666,28 +680,53 @@ function buildOrderText() {
 const sbpModal = $('#sbpModal');
 let sbpSum = 0;
 
-function openSbpModal() {
-  sbpSum = arguments.length ? arguments[0] : cartSum();
+function openSbpModal(sum) {
+  sbpSum = (typeof sum === 'number') ? sum : cartSum();
   $('#sbpAmount').textContent = fmt(sbpSum);
+  showSbpStep(1); /* при каждом открытии начинаем с первой страницы */
   sbpModal.classList.add('show');
 }
 function closeSbp() { sbpModal.classList.remove('show'); }
+function showSbpStep(n) {
+  $('#sbpStep1').classList.toggle('hidden-el', n !== 1);
+  $('#sbpStep2').classList.toggle('hidden-el', n !== 2);
+}
 document.querySelectorAll('[data-close-sbp]').forEach(b => b.addEventListener('click', closeSbp));
 sbpModal.addEventListener('click', e => { if (e.target === sbpModal) closeSbp(); });
+
+/* Главная кнопка оплаты */
+ $('#sbpPayBtn').addEventListener('click', () => {
+  /* Когда подключат СБП-эквайринг и в CONFIG.sbpPayUrl появится ссылка,
+     кнопка будет вести сразу на страницу НСПК со всеми банками СБП:
+     сумма подставится сама, скриншоты не понадобятся */
+  if (CONFIG.sbpPayUrl) {
+    const url = CONFIG.sbpPayUrl
+      .replace('{SUM_KOP}', sbpSum * 100)
+      .replace('{SUM}', sbpSum);
+    window.open(url, '_blank');
+    return;
+  }
+  showSbpStep(2); /* пока эквайринга нет — выбираем банк здесь */
+});
+
+ $('#sbpBack').addEventListener('click', () => showSbpStep(1));
 
  $('#sendReceipt').addEventListener('click', () => {
   /* открываем тот же чат без текста — клиент прикрепит скрин чека */
   window.open('https://wa.me/' + CONFIG.whatsapp, '_blank');
-  closeSbp();
   toast('📎 Прикрепите скрин чека и отправьте');
 });
 
  $('#copySbpNumber').addEventListener('click', () => copyText(CONFIG.sbpPhone, '📋 Номер скопирован'));
  $('#copySbpAmount').addEventListener('click', () => copyText(String(sbpSum), '📋 Сумма скопирована'));
 
-/* Кнопки банков: пробуем открыть приложение, если не вышло — сайт банка */
+/* Выбор банка: пробуем открыть приложение, если не вышло — сайт банка */
 document.querySelectorAll('.bank-btn').forEach(btn => {
   btn.addEventListener('click', () => {
+    if (!btn.dataset.scheme) { /* плитка "Другой" */
+      toast('Откройте ваш банк → перевод по СБП на ' + CONFIG.sbpDisplay);
+      return;
+    }
     let appOpened = false;
     const mark = () => { appOpened = true; };
     window.addEventListener('pagehide', mark, { once: true });
